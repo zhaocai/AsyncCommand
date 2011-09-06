@@ -10,6 +10,9 @@ if exists("g:loaded_autoload_asynchandler") || &cp || !has('clientserver')
   finish
 endif
 let g:loaded_autoload_asynchandler = 1
+if !exists("g:asynchandler_split_height")
+    let g:asynchandler_split_height = 8
+endif
 
 function! asynchandler#rename(path)
   " Move the output file to somewhere permanent.
@@ -77,6 +80,7 @@ function! asynchandler#split()
   let env = {}
   function env.get(temp_file_name) dict
     exec "split " . a:temp_file_name
+    exe "resize ".g:asynchandler_split_height
     silent! wincmd p
   endfunction
   return asynccommand#tab_restore(env)
